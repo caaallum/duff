@@ -6,27 +6,27 @@ on:
       - 'v*'
 
 jobs:
-  build: Create Release
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@master
-    - name: deps
-      run: sudo apt install -y libglib2.0-dev libcurl4-gnutls-dev libcjson-dev check
-    - name: dist
-      run: ./autogen.sh; ./configure; make dist
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@latest
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
-        files: |
-          LICENSE
-          *.tar.xz
-          *.tar.gz
-          *.tar.bz2
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: deps
+        run: sudo apt install -y libglib2.0-dev libcurl4-gnutls-dev libcjson-dev check
+      - name: dist
+        run: ./autogen.sh; ./configure; make dist
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+          files: |
+            LICENSE
+            *.tar.xz
+            *.tar.gz
+            *.tar.bz2
