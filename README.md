@@ -1,3 +1,5 @@
+![c-cpp](https://github.com/caaallum/duff/actions/workflows/c-cpp.yml/badge.svg)
+
 # duff
 
 AUR helper written in C99
