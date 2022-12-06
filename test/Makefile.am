@@ -1,7 +1,7 @@
 TESTCFLAGS = @CHECK_CFLAGS@ -I $(top_builddir)/lib @CJSON_CFLAGS@
 TESTLDFLAGS = @CHECK_LIBS@ $(top_builddir)/lib/libduff.la @CJSON_LIBS@
 
-check_PROGRAMS = api cli package #args
+check_PROGRAMS = api cli package vector #args
 
 api_SOURCES = check_api.c
 api_LDFLAGS = $(TESTLDFLAGS)
@@ -19,6 +19,10 @@ package_SOURCES = check_package.c
 package_LDFLAGS = $(TESTLDFLAGS)
 package_CFLAGS = $(TESTCFLAGS)
 
-TESTS = api cli package #args
+vector_SOURCES = check_vector.c
+vector_LDFLAGS = $(TESTLDFLAGS)
+vector_CFLAGS = $(TESTCFLAGS)
+
+TESTS = api cli package vector #args
 
 CLEANFILES = *~

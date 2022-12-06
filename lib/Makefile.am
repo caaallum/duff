@@ -8,7 +8,8 @@ libduff_la_SOURCES = cli.c \
 					 package.c \
 					 request.c \
 					 response.c \
-					 sync.c 
+					 sync.c \
+					 vector.c
 
 include_HEADERS = cli.h \
 				  duff.h \
@@ -18,7 +19,8 @@ include_HEADERS = cli.h \
 				  package.h \
 				  request.h \
 				  response.h \
-				  sync.h
+				  sync.h \
+				  vector.h
 
 libduff_la_CFLAGS = -Wall -Wextra -pedantic -std=c99
 libduff_la_CFLAGS += @CURL_CFLAGS@ @CJSON_CFLAGS@ -D_GNU_SOURCE
