@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: deps
-      run: apt install -y libglib2.0-dev libcurl4-gnutls-dev libcjson-dev check
+      run: sudo apt install -y libglib2.0-dev libcurl4-gnutls-dev libcjson-dev check
     - name: autogen
       run: ./autogen.sh
     - name: configure
