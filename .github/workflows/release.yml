@@ -11,7 +11,9 @@ jobs:
   steps:
     - name: Checkout code
       uses: actions/checkout@master
-    - name: Dist
+    - name: deps
+      run: sudo apt install -y libglib2.0-dev libcurl4-gnutls-dev libcjson-dev check
+    - name: dist
       run: ./autogen.sh; ./configure; make dist
     - name: Create Release
       id: create_release
