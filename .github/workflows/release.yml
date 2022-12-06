@@ -17,12 +17,13 @@ jobs:
         run: ./autogen.sh; ./configure; make dist
       - name: Create Release
         id: create_release
-        uses: actions/create-release@latest
+        uses: "marvinpinto/action-automatic-releases@latest"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          title: Release ${{ github.ref }}
           draft: false
           prerelease: false
           files: |
