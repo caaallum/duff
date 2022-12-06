@@ -29,25 +29,25 @@ duff_package_new(void) {
     duff_package_t *p = malloc(sizeof(duff_package_t));
     assert(p);
 
-    p->id                   = 0;
+    p->id              = 0;
     p->package_base_id = 0;
-    p->popularity           = 0;
-    p->num_votes            = 0;
-    p->first_submitted      = 0;
-    p->last_modified        = 0;
-    p->out_of_date          = 0;
-    p->name                 = NULL;
-    p->description          = NULL;
-    p->maintainer           = NULL;
-    p->version              = NULL;
-    p->url                  = NULL;
-    p->url_path             = NULL;
-    p->package_base         = NULL;
-    p->depends              = NULL;
-    p->groups               = NULL;
-    p->keywords             = NULL;
-    p->license              = NULL;
-    p->make_depends         = NULL;
+    p->popularity      = 0;
+    p->num_votes       = 0;
+    p->first_submitted = 0;
+    p->last_modified   = 0;
+    p->out_of_date     = 0;
+    p->name            = NULL;
+    p->description     = NULL;
+    p->maintainer      = NULL;
+    p->version         = NULL;
+    p->url             = NULL;
+    p->url_path        = NULL;
+    p->package_base    = NULL;
+    p->depends         = NULL;
+    p->groups          = NULL;
+    p->keywords        = NULL;
+    p->license         = NULL;
+    p->make_depends    = NULL;
 
     return p;
 }
@@ -209,22 +209,21 @@ duff_package_list_size(duff_package_t **list) {
 }
 
 void
-duff_package_list_append(duff_package_t ***dest, duff_package_t **src) {
+duff_package_list_add(duff_package_t ***dest, duff_package_t *src) {
     if (*dest == NULL) {
         *dest = malloc(sizeof(duff_package_t *) * 1);
         assert(*dest);
 
         (*dest)[0] = NULL;
-    }
-
-    for (int i = 0; src[i]; i++) {
+    } else {
         int size;
         for (size = 0; (*dest)[size]; size++)
             ;
         *dest = realloc(*dest, sizeof(duff_package_t *) * (size + 2));
         assert(*dest);
 
-        (*dest)[size] = src[i];
+        (*dest)[size]     = src;
+        (*dest)[size + 1] = NULL;
     }
 }
 

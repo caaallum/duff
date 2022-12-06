@@ -25,6 +25,8 @@
 #include <stdlib.h> /* malloc, free */
 #include <string.h> /* strlen, strcpy */
 
+#include "log.h"
+
 duff_response_t *
 duff_response_new(void) {
     duff_response_t *r = malloc(sizeof(duff_response_t));
@@ -76,7 +78,6 @@ duff_response_parse(const char *data) {
             array_item     = cJSON_GetArrayItem(item, i);
             r->response[i] = duff_package_from_json(array_item);
         }
-        r->response[r->result_count] = NULL;
     }
 
 end:

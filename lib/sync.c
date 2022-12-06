@@ -49,7 +49,9 @@ _sync_search_package(duff_package_t ***p, const char *package) {
         return;
     }
 
-    duff_package_list_append(p, res->response);
+    for (int i = 0; i < res->result_count; i++) {
+        duff_package_list_add(p, res->response[i]);
+    }
 
     // for (int i = 0; i < res->result_count; i++) {
     //     package_t *search = res->response[i];

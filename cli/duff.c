@@ -19,12 +19,19 @@
  */
 
 #include "../lib/duff.h"
+#include "../lib/log.h"
+#include "../lib/package.h"
+#include "../lib/sync.h"
 #include "args.h"
 #include "config.h"
-#include "../lib/log.h"
-#include "../lib/sync.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+int
+vector_free_package(void *data, int index __attribute__((unused)), void *user_data __attribute__((unused))) {
+    duff_package_free(data);
+    return 0;
+}
 
 int
 main(int argc, char **argv) {
@@ -42,17 +49,18 @@ main(int argc, char **argv) {
         printf("Copyright (C) 2022 Callum Speirs\n");
         printf("License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\n");
         printf("This is free software: you are free to change and redistribute it.\n");
-        printf("There is NO WARRANTY, to the extent permitted by law.\n\n");
+        printf("There is NO WARRANTY, to the extent permitted by law.\n");
     }
 
     if (args->sync) {
         if (args->search) {
-            duff_package_t **p = sync_search(&args->packages, args->package_count);
-            for (int i = 0; p[i]; i++) {
-                duff_package_t *search = p[i];
+            duff_package_t **v = sync_search(&args->packages, args->package_count);
+            for (int i = 0; v[i]; i++) {
+                duff_package_t *search = v[i];
                 printf("%s %s (%d %d)\n\t%s\n", search->name, search->version, search->num_votes, search->popularity, search->description);
             }
-            duff_package_free_list(p);
+
+            duff_package_free_list(v);
             return EXIT_SUCCESS;
         }
         //sync_install(&args->packages, args->package_count);

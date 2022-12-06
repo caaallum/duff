@@ -86,7 +86,7 @@ void duff_package_add_array(char ***arr, const char *src);
  * @param dest destination array
  * @param src source array
  */
-void duff_package_list_append(duff_package_t ***dest, duff_package_t **src);
+void duff_package_list_add(duff_package_t ***dest, duff_package_t *src);
 
 /**
  * Free package struct 

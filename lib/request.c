@@ -19,6 +19,7 @@
 */
 
 #include "request.h"
+#include "mem.h"
 #include "package.h"
 #include <assert.h> /* assert */
 #include <curl/curl.h>
@@ -57,19 +58,15 @@ duff_create_request(const char *url) {
 
     if (curl) {
         curl_easy_setopt(curl, CURLOPT_URL, url);
-        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
-        curl_easy_setopt(curl, CURLOPT_MAXREDIRS, 10L);
-        curl_easy_setopt(curl, CURLOPT_TCP_KEEPALIVE, 1L);
-
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_response_write);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &res);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *) &res);
 
         curl_easy_perform(curl);
     }
     curl_easy_cleanup(curl);
 
     duff_response_t *response = duff_response_parse(res.ptr);
-    free(res.ptr);
+    duff_free(res.ptr);
 
     return response;
 }
