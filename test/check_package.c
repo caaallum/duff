@@ -18,7 +18,7 @@
  * https://github.com/caaallum/duff
  */
 
-#include "package.h"
+#include "../lib/package.h"
 #include <check.h>
 #include <stdlib.h>
 

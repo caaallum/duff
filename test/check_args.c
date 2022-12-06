@@ -18,7 +18,7 @@
  * https://github.com/caaallum/duff
  */
 
-#include "args.h"
+#include "../cli/args.h"
 #include <check.h>
 #include <stdarg.h>
 #include <stdlib.h>

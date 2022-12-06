@@ -19,7 +19,7 @@
  */
 
 #include "args.h"
-#include "log.h"
+#include "../lib/log.h"
 #include <assert.h>
 #include <glib.h>
 

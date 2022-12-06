@@ -18,7 +18,7 @@
  * https://github.com/caaallum/duff
  */
 
-#include "request.h"
+#include "../lib/request.h"
 #include <check.h>
 #include <stdlib.h>
 

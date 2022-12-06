@@ -18,7 +18,7 @@
  * https://github.com/caaallum/duff
  */
 
-#include "cli.h"
+#include "../lib/cli.h"
 #include <check.h>
 #include <stdlib.h>
 

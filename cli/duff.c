@@ -18,11 +18,11 @@
  * https://github.com/caaallum/duff
  */
 
-#include "duff.h"
+#include "../lib/duff.h"
 #include "args.h"
 #include "config.h"
-#include "log.h"
-#include "sync.h"
+#include "../lib/log.h"
+#include "../lib/sync.h"
 #include <stdio.h>
 #include <stdlib.h>
 
