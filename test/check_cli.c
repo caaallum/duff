@@ -23,46 +23,56 @@
 #include <stdlib.h>
 
 START_TEST(check_echo) {
-    struct cli_arg arg = {
-        .command = "echo test",
-        .flags   = CLI_ARG_FLAGS_GET_OUTPUT | CLI_ARG_FLAGS_REMOVE_NEWLINE,
-        .exit    = 1
-    };
-    cli_exec(&arg);
+    cli_arg_t *arg = cli_arg_build(CLI_ARG_FLAGS_GET_OUTPUT | CLI_ARG_FLAGS_REMOVE_NEWLINE, "echo test");
+    cli_exec(arg);
 
-    ck_assert_str_eq(arg.output, "test");
-    ck_assert_int_eq(arg.exit, 0);
+    ck_assert_str_eq(arg->output, "test");
+    ck_assert_int_eq(arg->exit, 0);
 
-    cli_arg_free(&arg);
+    cli_arg_free(arg);
 }
 END_TEST
 
 START_TEST(check_echo_newline) {
-    struct cli_arg arg = {
-        .command = "echo test",
-        .flags   = CLI_ARG_FLAGS_GET_OUTPUT,
-    };
-    cli_exec(&arg);
+    cli_arg_t *arg = cli_arg_build(CLI_ARG_FLAGS_GET_OUTPUT, "echo test");
+    cli_exec(arg);
 
-    ck_assert_str_eq(arg.output, "test\n");
-    ck_assert_int_eq(arg.exit, 0);
+    ck_assert_str_eq(arg->output, "test\n");
+    ck_assert_int_eq(arg->exit, 0);
 
-    cli_arg_free(&arg);
+    cli_arg_free(arg);
 }
+END_TEST
 
 START_TEST(check_fail) {
-    struct cli_arg arg = {
-        .command = "false",
-        .flags   = CLI_ARG_FLAGS_NONE,
-        .exit    = 0
-    };
-    cli_exec(&arg);
+    cli_arg_t *arg = cli_arg_build(CLI_ARG_FLAGS_NONE, "false");
+    cli_exec(arg);
 
-    ck_assert_ptr_null(arg.output);
-    ck_assert_int_eq(arg.exit, 1);
+    ck_assert_ptr_null(arg->output);
+    ck_assert_int_eq(arg->exit, 1);
 
-    cli_arg_free(&arg);
+    cli_arg_free(arg);
 }
+END_TEST
+
+START_TEST(check_build_complete) {
+    cli_arg_t *arg = cli_arg_build(CLI_ARG_FLAGS_NONE, "the %s to life is %d", "answer", 42);
+
+    ck_assert_str_eq(arg->command, "the answer to life is 42");
+
+    cli_arg_free(arg);
+}
+
+START_TEST(check_set_command) {
+    cli_arg_t *arg        = cli_arg_new();
+    static char command[] = "The answer to life is 42";
+    cli_arg_set_command(arg, "The %s to life is %d", "answer", 42);
+
+    ck_assert_str_eq(arg->command, command);
+
+    cli_arg_free(arg);
+}
+END_TEST
 
 Suite *
 cli_suite(void) {
@@ -76,6 +86,8 @@ cli_suite(void) {
     tcase_add_test(tc_core, check_echo);
     tcase_add_test(tc_core, check_fail);
     tcase_add_test(tc_core, check_echo_newline);
+    tcase_add_test(tc_core, check_build_complete);
+    tcase_add_test(tc_core, check_set_command);
     suite_add_tcase(s, tc_core);
 
     return s;

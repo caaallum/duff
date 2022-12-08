@@ -26,25 +26,60 @@
 #define CLI_ARG_FLAGS_GET_OUTPUT 1 << 1
 #define CLI_ARG_FLAGS_OUTPUT_STDOUT 1 << 2
 
-struct cli_arg {
+typedef struct {
     char *command;
-    int flags;
+    unsigned int flags;
     char *output;
     int exit;
-};
+} cli_arg_t;
+
+/**
+ * Allocated to empty cli_arg_t struct
+ *
+ * @returns empty struct
+ */
+cli_arg_t *cli_arg_new(void);
+
+/**
+ * Allocate new arg struct with values
+ *
+ * @param flags cli flags
+ * @param fmt command format
+ * @param ... command args
+ */
+cli_arg_t *cli_arg_build(unsigned int flags, const char *fmt, ...);
+
+/**
+ * Rebuild cli arg
+ *
+ * @param arg pointer to struct to rebuild
+ * @param flags cli flags
+ * @param fmt command format
+ * @param ... command args
+ */
+void cli_arg_rebuild(cli_arg_t **arg, unsigned int flags, const char *fmt, ...);
 
 /**
  * Exec command
  *
  * @param arg arguments to pass to cli
  */
-void cli_exec(struct cli_arg *arg);
+void cli_exec(cli_arg_t *arg);
+
+/**
+ * Set command of arg list
+ *
+ * @param arg arg
+ * @param fmt
+ * @param args
+ */
+void cli_arg_set_command(cli_arg_t *arg, const char *fmt, ...);
 
 /**
  * Free output from cli
  *
  * @param arg
  */
-void cli_arg_free(struct cli_arg *arg);
+void cli_arg_free(cli_arg_t *arg);
 
 #endif /* __LIB_DUF_CLI_H */
