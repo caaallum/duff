@@ -1,0 +1,6 @@
+purpose "AUR helper written in C99"
+versiontext "Copyright (C) 2022 Callum Speirs\nLicense GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n"
+
+option "sync" S "Sync" flag off
+option "search" s "Search" flag off
+

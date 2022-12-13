@@ -19,10 +19,11 @@
  */
 
 #include "io.h"
-#include <pwd.h>    /* getpwuid */
-#include <stdlib.h> /* malloc */
-#include <string.h> /* strcpy, strcat */
-#include <unistd.h> /* getuid */
+#include <pwd.h>      /* getpwuid */
+#include <stdlib.h>   /* malloc */
+#include <string.h>   /* strcpy, strcat */
+#include <sys/stat.h> /* stat */
+#include <unistd.h>   /* getuid */
 
 char *
 get_home_dir(void) {
@@ -46,4 +47,10 @@ get_cache_path(void) {
     strcat(home, "/.cache/duff");
 
     return home;
+}
+
+int
+dir_exists(const char *dir) {
+    struct stat sb;
+    return !(stat(dir, &sb) == 0 && S_ISDIR(sb.st_mode));
 }

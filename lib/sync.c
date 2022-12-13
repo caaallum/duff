@@ -53,11 +53,6 @@ _sync_search_package(duff_package_t ***p, const char *package) {
         duff_package_list_add(p, res->response[i]);
     }
 
-    // for (int i = 0; i < res->result_count; i++) {
-    //     package_t *search = res->response[i];
-    //     printf("%s %s (%d %d)\n\t%s\n", search->name, search->version, search->num_votes, search->popularity, search->description);
-    // }
-
     duff_response_free(res);
 }
 
@@ -81,35 +76,31 @@ _sync_install_package(const char *package) {
 
     duff_package_t *install = res->response[0];
 
-    struct cli_arg arg        = { .flags = CLI_ARG_FLAGS_OUTPUT_STDOUT };
-    static char install_fmt[] = "git clone https://aur.archlinux.org/%s.git %s/%s";
-    const char *cache_path    = get_cache_path();
-    arg.command               = malloc(sizeof(char) + strlen(install_fmt) + (strlen(install->name) * 2) + strlen(cache_path));
-    assert(arg.command);
-    sprintf(arg.command, install_fmt, install->name, cache_path, install->name);
+    const char *cache_path = get_cache_path();
+    char clone_path[256];
+    sprintf(clone_path, "%s/%s", cache_path, install->name);
 
-    cli_exec(&arg);
+    if (dir_exists(clone_path) == 0) { /* Build files already exist */
+    }
 
-    if (arg.exit != 0) {
+    cli_arg_t *arg = cli_arg_build(CLI_ARG_FLAGS_OUTPUT_STDOUT, "git clone https://aur.archlinux.org/%s.git %s/%s", install->name, cache_path, install->name);
+    cli_exec(arg);
+
+    if (arg->exit != 0) {
         LOG_ERROR("Failed to clone %s", install->name);
         goto end;
     }
 
-    static char build_fmt[] = "cd %s/%s; makepkg -si";
-    arg.command             = realloc(arg.command, sizeof(char) + strlen(build_fmt) + strlen(cache_path) + strlen(install->name));
-    assert(arg.command);
-    sprintf(arg.command, build_fmt, cache_path, install->name);
+    cli_arg_rebuild(&arg, CLI_ARG_FLAGS_OUTPUT_STDOUT, "cd %s/%s; makepkg -si", cache_path, install->name);
 
-    cli_exec(&arg);
-
-    if (arg.exit != 0) {
+    cli_exec(arg);
+    if (arg->exit != 0) {
         LOG_ERROR("Failed to build %s", install->name);
         goto end;
     }
-
     LOG_DEBUG("Successfully installed %s", install->name);
 end:
-    free(arg.command);
+    cli_arg_free(arg);
     duff_response_free(res);
 }
 

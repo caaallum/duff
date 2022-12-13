@@ -36,24 +36,17 @@ vector_free_package(void *data, int index __attribute__((unused)), void *user_da
 int
 main(int argc, char **argv) {
     LOG_INFO("Starting duff %s", VERSION);
-    args_t *args = args_parse(&argc, &argv);
+    struct gengetopt_args_info args_info;
+
+    if (cmdline_parser(argc, argv, &args_info) != 0) {
+        exit(1);
+    }
 
     int ret = duff_init();
     LOG_DEBUG("Init: %d", ret);
-    if (args == NULL) {
-        return EXIT_FAILURE;
-    }
 
-    if (args->version) {
-        printf("duff %s\n", VERSION);
-        printf("Copyright (C) 2022 Callum Speirs\n");
-        printf("License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>.\n");
-        printf("This is free software: you are free to change and redistribute it.\n");
-        printf("There is NO WARRANTY, to the extent permitted by law.\n");
-    }
-
-    if (args->sync) {
-        if (args->search) {
+    if (args_info.sync_flag) {
+        if (args_info.search_flag) {
             duff_package_t **v = sync_search(&args->packages, args->package_count);
             for (int i = 0; v[i]; i++) {
                 duff_package_t *search = v[i];
@@ -63,9 +56,9 @@ main(int argc, char **argv) {
             duff_package_free_list(v);
             return EXIT_SUCCESS;
         }
-        //sync_install(&args->packages, args->package_count);
+        sync_install(&args->packages, args->package_count);
     }
 
-    args_free(args);
+    cmdline_parser_free(&args_info);
     return EXIT_SUCCESS;
 }

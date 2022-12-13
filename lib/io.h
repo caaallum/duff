@@ -35,4 +35,11 @@ char *get_home_dir(void);
  */
 char *get_cache_path(void);
 
+/**
+ * Get if a directory already exists
+ *
+ * @returns 0 if exists
+ */
+int dir_exists(const char *dir);
+
 #endif /* __LIB_DUFF_IO_H */
