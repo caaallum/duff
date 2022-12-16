@@ -18,10 +18,11 @@
  * https://github.com/caaallum/duff
  */
 
-#ifndef __LIB_DUFF_PACKAGE_H
-#define __LIB_DUFF_PACKAGE_H
+#ifndef __DUFF_PACKAGE_H
+#define __DUFF_PACKAGE_H
 
 #include <cJSON.h>
+#include <vector.h>
 
 typedef struct {
     int id;
@@ -41,11 +42,11 @@ typedef struct {
     char *url_path;
     char *package_base;
 
-    char **depends;
-    char **groups;
-    char **keywords;
-    char **license;
-    char **make_depends;
+    vector_t *depends;
+    vector_t *groups;
+    vector_t *keywords;
+    vector_t *license;
+    vector_t *make_depends;
 } duff_package_t;
 
 /**
@@ -73,33 +74,10 @@ duff_package_t *duff_package_from_json(const cJSON *json);
 void duff_package_set_string(char **dest, const char *src);
 
 /**
- * Append array with value
- *
- * @param arr pointer to array ar char arrays
- * @param src char array to set
- */
-void duff_package_add_array(char ***arr, const char *src);
-
-/**
- * Merge 2 duff_package_t lists into dest
- *
- * @param dest destination array
- * @param src source array
- */
-void duff_package_list_add(duff_package_t ***dest, duff_package_t *src);
-
-/**
  * Free package struct 
  *
  * @param p pointer to duff_package_t struct
  */
 void duff_package_free(duff_package_t *p);
 
-/**
- * Free package list
- *
- * @param p duff_package_t list
- */
-void duff_package_free_list(duff_package_t **p);
-
-#endif /* __LIB_DUFF_PACKAGE_H */
+#endif /* __DUFF_PACKAGE_H */

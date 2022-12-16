@@ -18,26 +18,14 @@
  * https://github.com/caaallum/duff
  */
 
-#include "duff.h"
-#include "io.h"
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
+#include "str.h"
+#include <string.h> /* strcpy, strlen */
+#include <stdlib.h> /* malloc */
+#include <assert.h> /* assert */
 
-int
-create_cache_dir(void) {
-    struct stat st        = { 0 };
-    const char *cache_dir = get_cache_path();
-
-    mkdir(cache_dir, 0700);
-    return stat(cache_dir, &st);
-}
-
-int
-duff_init(void) {
-    int ret;
-
-    ret = create_cache_dir();
-
-    return ret;
+void
+duff_set_string(char **dest, const char *src) {
+    *dest = malloc(sizeof(char) + strlen(src));
+    assert(*dest);
+    strcpy(*dest, src);
 }

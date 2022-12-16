@@ -18,32 +18,10 @@
  * https://github.com/caaallum/duff
  */
 
-#include "io.h"
-#include <pwd.h>    /* getpwuid */
-#include <stdlib.h> /* malloc */
-#include <string.h> /* strcpy, strcat */
-#include <unistd.h> /* getuid */
+#include "args.h"
 
-char *
-get_home_dir(void) {
-    char *dir_path = malloc(sizeof(char) + 256);
-    uid_t uid      = getuid();
+int main(int argc, char **argv) {
+    args_t *args = args_parse(&argc, &argv);
 
-    struct passwd *pw = getpwuid(uid);
-    if (pw == NULL) {
-        strcpy(dir_path, "/");
-        return dir_path;
-    }
-
-    strcpy(dir_path, pw->pw_dir);
-    return dir_path;
-}
-
-char *
-get_cache_path(void) {
-    char *home = get_home_dir();
-
-    strcat(home, "/.cache/duff");
-
-    return home;
+    args_free(args);
 }

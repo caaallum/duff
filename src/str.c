@@ -18,12 +18,9 @@
  * https://github.com/caaallum/duff
  */
 
-#include "mem.h"
-#include <stdlib.h>
+#ifndef __DUFF_STR_H
+#define __DUFF_STR_H
 
-void
-duff_free(void *data) {
-    if (data != NULL) {
-        free(data);
-    }
-}
+void duff_set_string(char **dest, const char *src);
+
+#endif /* __DUFF_STR_H */

@@ -1,10 +1,4 @@
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS = lib cli test
+SUBDIRS = src test
 
 CLEANFILES = *~
-
-cleandev:
-	@rm -f compile-commands.json
-
-dev:
-	@compiledb -n $(MAKE)

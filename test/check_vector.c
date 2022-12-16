@@ -18,7 +18,7 @@
  * https://github.com/caaallum/duff
  */
 
-#include "../lib/vector.h"
+#include "../src/vector.h"
 #include <check.h>
 #include <stdlib.h>
 

@@ -19,7 +19,6 @@
  */
 
 #include "args.h"
-#include "../lib/log.h"
 #include <assert.h>
 #include <glib.h>
 
@@ -42,7 +41,6 @@ args_parse(int *argc, char ***argv) {
         { "sync", 'S', 0, G_OPTION_ARG_NONE, &s, "Sync", NULL },
         { "remove", 'R', 0, G_OPTION_ARG_NONE, &remove, "Remove", NULL },
         { "upgrade", 'U', 0, G_OPTION_ARG_NONE, &upgrade, "Upgrade", NULL },
-
         /* Extended options */
         { "search", 's', 0, G_OPTION_ARG_NONE, &search, "Search", NULL },
 

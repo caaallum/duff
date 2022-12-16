@@ -18,8 +18,8 @@
  * https://github.com/caaallum/duff
  */
 
-#ifndef __LIB_DUFF_VECTOR_H
-#define __LIB_DUFF_VECTOR_H
+#ifndef __DUFF_VECTOR_H
+#define __DUFF_VECTOR_H
 
 typedef struct vector_t vector_t;
 
@@ -108,4 +108,4 @@ void vector_free(vector_t *v);
  */
 void vector_free_all(vector_t *v, vector_callback callback);
 
-#endif /* !__LIB_DUFF_VECTOR_H */
+#endif /* !__DUFF_VECTOR_H */
